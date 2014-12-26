@@ -25,40 +25,12 @@ public class SearchMemberActivity extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search_list);
-		String keywords = getIntent().getExtras().getString("name");
-		Uri allcontacts = ContactsContract.Contacts.CONTENT_URI;
 
-		String[] projection = new String[] { ContactsContract.Contacts._ID,
-				ContactsContract.Contacts.DISPLAY_NAME,
-				ContactsContract.Contacts.HAS_PHONE_NUMBER };
-		Cursor c;
-		{
-			CursorLoader cursorLoader = new CursorLoader(this, allcontacts,
-					projection, ContactsContract.Contacts.DISPLAY_NAME
-							+ " LIKE ?", new String[] { "%" + keywords + "%" },
-					ContactsContract.Contacts.DISPLAY_NAME + " ASC");
-			c = cursorLoader.loadInBackground();
-		}
-
-		String[] columns = new String[] {
-				ContactsContract.Contacts.DISPLAY_NAME,
-				ContactsContract.Contacts._ID };
 		int[] views = new int[] { R.id.contactName, R.id.contact_mobile };
-//		SimpleCursorAdapter adapter;
-//
-//		{
-//	   adapter = new SimpleCursorAdapter(this, 
-//		R.layout.search_list,
-//		c,
-//		columns, 
-//		views,
-//					CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-//
-//		}
-//		this.setListAdapter(adapter);
+
         setListAdapter(new SimpleAdapter(this,   
                 getData(" "),   
-                R.layout.search_list,   
+                R.layout.search_list, 
                 new String[]{"name", "phone"}, 
                 views));
 		//PrintContacts(c);
@@ -75,9 +47,8 @@ public class SearchMemberActivity extends ListActivity {
         //---get all diary---
 //        db.open();
 //        Cursor c = db.getAllContacts();
-        String name = "";
+//        String name = "";
         String phone = "";
-        Map<String, String> map = new HashMap<String, String>();
 		String keywords = getIntent().getExtras().getString("name");
 		Uri allcontacts = ContactsContract.Contacts.CONTENT_URI;
 
@@ -96,6 +67,7 @@ public class SearchMemberActivity extends ListActivity {
         if (c.moveToFirst())
         {
         	do {
+        		
 				String contactid = c.getString(c
 						.getColumnIndex(ContactsContract.Contacts._ID));
 				String contactdisplayname = c
@@ -103,7 +75,8 @@ public class SearchMemberActivity extends ListActivity {
 								.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 				Log.v("Content Providers", contactid + ", "
 						+ contactdisplayname);
-
+				 Toast toast5 = Toast.makeText(this, "id="+contactid+ " " + "name = " + contactdisplayname, Toast.LENGTH_SHORT);  
+			     toast5.show();
 				int hasPhone = c
 						.getInt(c
 								.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
@@ -117,15 +90,18 @@ public class SearchMemberActivity extends ListActivity {
 						phone = phoneCursor.getString(phoneCursor
 								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 						Log.v("content providers",phone);
+						Toast toast6 = Toast.makeText(this, "phone = " + phone, Toast.LENGTH_SHORT);  
+					    toast6.show();
+					    Map<String, String> map = new HashMap<String, String>();
+			        	map.put("name", contactdisplayname);
+			        	map.put("phone", phone);
+			        	map.put("_id", contactid);
+			        	listData.add(map);
 
 					}
 					phoneCursor.close();
 				}
-				
-	        	map.put("name", c.getString(1));
-	        	map.put("phone", phone);
-	        	map.put("_id", contactid);
-	        	listData.add(map);
+
 			} while (c.moveToNext());
         }
         

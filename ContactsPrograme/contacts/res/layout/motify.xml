@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/qianxun" >
+    android:background="@drawable/qianxun" xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,8 +79,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="update_data"
             android:text="更新"
-            android:onClick="update_data" />
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/delete_button2"

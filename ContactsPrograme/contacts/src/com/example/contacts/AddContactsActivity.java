@@ -29,7 +29,8 @@ public class AddContactsActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_contacts);
+		//把界面和代码关联起来
+		setContentView(R.layout.add_contacts);   
 		
 	}
 	public void back_login(View view){
@@ -46,14 +47,17 @@ public class AddContactsActivity extends Activity{
 		buttonadd = (Button)findViewById(R.id.add_button1);
 		buttoncancel = (Button)findViewById(R.id.cancel_button2);
 		
+		//获取控件上面的内容
 		String member_name = editName.getText().toString();
 		String member_mobile = editMobile.getText().toString();
 		String member_email = editEmail.getText().toString();
 		
-		ContentValues values = new ContentValues();
+		ContentValues values = new ContentValues();   //添加内容的解释器
+		//获取系统的通讯录数据
 		Uri rawContactUri = this.getBaseContext().getContentResolver().insert(RawContacts.CONTENT_URI, values);
 		long rawContactId = ContentUris.parseId(rawContactUri);
 	    //插入姓名
+		//装载数据
 		values.clear();
         values.put(Data.RAW_CONTACT_ID, rawContactId);
         values.put(Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE);
